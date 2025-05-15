@@ -6,6 +6,7 @@ function Routing() {
     <div>
         <Router>
             <Routes>
+               
                 <Route path='/productos' element={<ProductosCrudPage/>}/>
             </Routes>
         </Router>
