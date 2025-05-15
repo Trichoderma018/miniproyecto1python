@@ -1,5 +1,5 @@
 import React from 'react'
-
+import ProductosServices from '../services/ProductosServices'
 function ProductosCrud() {
     const [nombreProducto, setNombreProducto] = React.useState("")
     const [descripcionProducto, setDescripcionProducto] = React.useState("")
@@ -26,6 +26,8 @@ function ProductosCrud() {
             precio: precioProducto,
             cantidad_disponible: cantidadDiponibleProducto
         }
+        const respuestaServer = await ProductosServices(obj)
+            console.log(respuestaServer)
     }
 
   return (

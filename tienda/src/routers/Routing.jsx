@@ -1,4 +1,4 @@
-import {BroswerRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import ProductosCrudPage from '../pages/ProductosCrudPage';
 
 function Routing() {
