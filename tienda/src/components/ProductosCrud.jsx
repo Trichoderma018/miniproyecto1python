@@ -10,7 +10,7 @@ function ProductosCrud() {
     const [precioProducto, setPrecioProducto] = React.useState(0)
     const [cantidadDiponibleProducto, setCantidadDiponibleProducto] = React.useState(0)
 
-    const [productos, setProductos] = React.useState([])
+    const [products, setProductos] = React.useState([])
     const [editMode, setEditMode] = React.useState(false)
     const [currentProductId, setCurrentProductId] = React.useState(null)
 
@@ -27,19 +27,23 @@ function ProductosCrud() {
         setCantidadDiponibleProducto(e.target.value)
     }
 
+    // Al cargar el componente, obtiene los productos
     useEffect(() => {
         obtenerProductos()
     }, [])
 
-   async function obtenerProductos() {
+    // Hace un get y los pone en una lista
+    async function obtenerProductos() {
        try {
            const productos = await GetProducts();
            console.log("Productos obtenidos:", productos);
+           setProductos(productos);
        } catch (error) {
            console.error("Error obteniendo productos:", error);
        }
-   }
+    }
 
+    // Agrega un nuevo producto
     async function agregarProducto() {
        const obj = {
            nombre: nombreProducto,
@@ -51,13 +55,14 @@ function ProductosCrud() {
            console.log(respuestaServer)
     }
 
+    // Actualiza un producto existente
     async function actualizarProducto() {
         try {
             const productoActualizado = {
                 nombre: nombreProducto,
                 descripcion: descripcionProducto,
                 precio: precioProducto,
-                cantidad_disponible: cantidadDisponibleProducto
+                cantidad_disponible: cantidadDiponibleProducto
             }
             
             await PutProductos(currentProductId, productoActualizado)
@@ -70,6 +75,7 @@ function ProductosCrud() {
         }
     }
 
+    // Elimina un producto
     async function eliminarProducto(id) {
         if (window.confirm("¿Está seguro que desea eliminar este producto?")) {
             try {
@@ -81,6 +87,7 @@ function ProductosCrud() {
         }
     }
 
+    // Rellena el formulario con los datos del producto seleccionado para editar
     function editarProducto(producto) {
         setNombreProducto(producto.nombre)
         setDescripcionProducto(producto.descripcion)
@@ -90,7 +97,7 @@ function ProductosCrud() {
         setEditMode(true)
     }
     
-    // Reset form fields
+    // Limpia el formulario después de agregar o editar un producto
     function limpiarFormulario() {
         setNombreProducto("")
         setDescripcionProducto("")
@@ -99,8 +106,7 @@ function ProductosCrud() {
         setEditMode(false)
         setCurrentProductId(null)
     }
-    
-    // Handle form submission based on mode
+    // Hace que el botón de crear o actualizar funcione
     function handleSubmit() {
         if (editMode) {
             actualizarProducto()
@@ -184,7 +190,7 @@ function ProductosCrud() {
                     </tr>
                 </thead>
                 <tbody>
-                    {productos.map(producto => (
+                    {products.map(producto => (
                         <tr key={producto.id}>
                             <td>{producto.nombre}</td>
                             <td>{producto.descripcion}</td>

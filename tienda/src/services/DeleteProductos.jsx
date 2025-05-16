@@ -12,7 +12,7 @@ async function DeleteProductos(id) {
             throw new Error("Error eliminando productos")
         }
 
-        return await response.json()
+        return { success: true };
     } catch (error) {
         console.error("Error eliminando productos:", error);
         throw error
